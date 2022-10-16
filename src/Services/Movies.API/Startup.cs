@@ -1,18 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Movies.API.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movies.API
 {
@@ -32,7 +25,7 @@ namespace Movies.API
             services.AddControllers();
 
             services.AddDbContext<MovieDbContext>(opt => {
-                opt.UseNpgsql(Configuration.GetConnectionString("MoviesConnection"));
+                opt.UseInMemoryDatabase("Movies");
             });
 
             services.AddSwaggerGen(c =>
