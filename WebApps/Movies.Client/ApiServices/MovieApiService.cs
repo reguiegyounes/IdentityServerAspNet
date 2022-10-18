@@ -12,46 +12,28 @@ namespace Movies.Client.ApiServices
     public class MovieApiService : IMovieApiService
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public MovieApiService(IConfiguration  configuration)
+        public MovieApiService(IConfiguration  configuration,IHttpClientFactory httpClientFactory)
         {
-            _configuration=configuration;
+            _configuration=configuration?? throw new ArgumentNullException(nameof(configuration));
+            _httpClientFactory=httpClientFactory?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            // "retrieve" our api credetials . This must be registred on Identity Server
-            var apiClientCredentials = new ClientCredentialsTokenRequest
-            {
-                Address=$"{_configuration["oidc:authority_url"]}/connect/token",
-                ClientId=_configuration["Movies.API:ClientId"],
-                ClientSecret=_configuration["Movies.API:ClientSecret"],
-                Scope= _configuration["Movies.API:Scope"]
-            };
-            
-            var client = new HttpClient();
+            var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
 
-            var disco = await client.GetDiscoveryDocumentAsync(_configuration["oidc:authority_url"]);
-            if (disco.IsError)
-            {
-                return null; // throw 500 error
-            }
-            // get an access token 
-            var tokenResponse=await client.RequestClientCredentialsTokenAsync(apiClientCredentials);
-            if (tokenResponse.IsError)
-            {
-                return null;
-            }
+            var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies");
+
+            var response = await httpClient.SendAsync(request,
+                HttpCompletionOption.ResponseHeadersRead)
+                .ConfigureAwait(false);
 
 
-            // Send request to protected api
-
-            var apiClient=new HttpClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
-            var response = await apiClient.GetAsync($"{_configuration["Movies.API:Url"]}/api/movies");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            List<Movie> moviesList =  JsonConvert.DeserializeObject<List<Movie>>(content);
+            var moviesList =  JsonConvert.DeserializeObject<List<Movie>>(content);
 
             return moviesList;
             
