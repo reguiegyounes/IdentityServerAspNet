@@ -31,6 +31,8 @@ namespace Movies.Client
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect(options =>
                 {
+                    options.Authority = Configuration["oidc:authority_url"];
+
                     options.ClientId = Configuration["oidc:clientid"];
                     options.ClientSecret = Configuration["oidc:clientsecret"];
                     options.ResponseType = "code";
