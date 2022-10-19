@@ -38,8 +38,10 @@ namespace Movies.Client
                     options.ClientSecret = Configuration["oidc:clientsecret"];
                     options.ResponseType = "code id_token";
 
-                    options.Scope.Add("profile");
-                    options.Scope.Add("openid");
+                    //options.Scope.Add("profile");
+                    //options.Scope.Add("openid");
+                    options.Scope.Add("address");
+                    options.Scope.Add("email");
                     options.Scope.Add("movieAPI");
 
                     options.SaveTokens=true;
