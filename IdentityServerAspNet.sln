@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "src\Ident
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{86913873-FD4B-48D3-9CE5-F3C82769E16B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Client", "WebApps\Movies.Client\Movies.Client.csproj", "{97459CFC-A1E1-492F-A009-C6E4E4C0885B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Client", "src\WebApps\Movies.Client\Movies.Client.csproj", "{97459CFC-A1E1-492F-A009-C6E4E4C0885B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
