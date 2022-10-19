@@ -48,6 +48,7 @@ namespace Movies.Client
                 }
             );
 
+            services.AddHttpContextAccessor();
             services.AddHttpClientServices(Configuration);
             
         }

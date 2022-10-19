@@ -30,13 +30,13 @@ namespace Movies.Client.Extensions
                 }
             );
 
-            services.AddSingleton(new ClientCredentialsTokenRequest
-            {
-                Address=$"{configuration["oidc:authority_url"]}/connect/token",
-                ClientId=configuration["Movies.API:ClientId"],
-                ClientSecret=configuration["Movies.API:ClientSecret"],
-                Scope= configuration["Movies.API:Scope"]
-            });
+            //services.AddSingleton(new ClientCredentialsTokenRequest
+            //{
+            //    Address=$"{configuration["oidc:authority_url"]}/connect/token",
+            //    ClientId=configuration["Movies.API:ClientId"],
+            //    ClientSecret=configuration["Movies.API:ClientSecret"],
+            //    Scope= configuration["Movies.API:Scope"]
+            //});
 
             return services;
         }
