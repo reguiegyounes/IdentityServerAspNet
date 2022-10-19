@@ -8,9 +8,9 @@ namespace Movies.Client.ApiServices
     public interface IMovieApiService
     {
         Task<IEnumerable<Movie>> GetAllMovies();
-        Task<IEnumerable<Movie>> GetMovieById(int id);
+        Task<Movie> GetMovieById(int? id);
         Task<Movie> CreateMovie(Movie movie);
-        Task<Movie> UpdateMovie(Movie movie);
+        Task<Movie> UpdateMovie(int? id,Movie movie);
         Task DeleteMovie(int id);
     }
 }
