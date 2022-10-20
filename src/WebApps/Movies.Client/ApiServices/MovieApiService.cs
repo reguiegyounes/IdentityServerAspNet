@@ -1,15 +1,14 @@
 ﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Movies.Client.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System.Threading.Tasks;
 
 namespace Movies.Client.ApiServices
 {
@@ -27,7 +26,7 @@ namespace Movies.Client.ApiServices
         }
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies");
+            var request = new HttpRequestMessage(HttpMethod.Get, "/movies");
 
             var response = await _httpClient.SendAsync(request,
                 HttpCompletionOption.ResponseHeadersRead)
@@ -45,7 +44,7 @@ namespace Movies.Client.ApiServices
 
         public async Task<Movie> GetMovieById(int? id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"/api/movies/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/movies/{id}");
 
             var response = await _httpClient.SendAsync(request,
                 HttpCompletionOption.ResponseHeadersRead)
@@ -64,7 +63,7 @@ namespace Movies.Client.ApiServices
         {
             if (movie == null) throw new Exception("The body of request must be not empty"); 
 
-            var response = await _httpClient.PostAsJsonAsync("/api/movies", movie);
+            var response = await _httpClient.PostAsJsonAsync("/movies", movie);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var newMovie = JsonConvert.DeserializeObject<Movie>(content);
@@ -74,14 +73,14 @@ namespace Movies.Client.ApiServices
 
         public async Task DeleteMovie(int id)
         {
-            await _httpClient.DeleteAsync($"/api/movies/{id}");
+            await _httpClient.DeleteAsync($"/movies/{id}");
         }
 
         public async Task<Movie> UpdateMovie(int? id,Movie movie)
         {
             if (movie == null) throw new Exception("The body of request must be not empty");
 
-            var response = await _httpClient.PutAsJsonAsync($"/api/movies/{id}", movie);
+            var response = await _httpClient.PutAsJsonAsync($"/movies/{id}", movie);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var editedMovie = JsonConvert.DeserializeObject<Movie>(content);
